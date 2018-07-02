@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentThree">
+
+    <TextView
+        android:id="@+id/sfTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:layout_margin="5dp"
+        android:id="@+id/sfTextView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="10.25sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/sfTextView5"
+        android:layout_alignStart="@id/sfTextView5"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/sfTextView5"
+        android:layout_alignBottom="@id/sfTextView5"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sfTextView5"
+        android:layout_alignStart="@id/sfTextView5"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+    <TextView
+        android:id="@+id/sfTextView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/sfTextView5"
+        android:layout_alignBottom="@id/sfTextView5"
+        android:textSize="8sp"
+        android:text="@string/textViewText" />
+
+</RelativeLayout>
