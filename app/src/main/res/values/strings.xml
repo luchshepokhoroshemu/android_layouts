@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">android_layouts</string>
+    <string name="textViewText">text</string>
 </resources>

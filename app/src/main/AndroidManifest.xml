@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <service android:name=".ServiceFragmentOne"/>
+        <service android:name=".ServiceFragmentTwo"/>
+        <service android:name=".ServiceFragmentThree"/>
+        <service
+            android:name=".ServiceFragmentFour"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>
