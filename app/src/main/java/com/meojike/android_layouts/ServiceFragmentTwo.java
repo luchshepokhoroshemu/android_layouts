@@ -25,7 +25,7 @@ public class ServiceFragmentTwo extends Service {
 
     private List<Messenger> clientMessengers = new ArrayList<>();
 
-    private Messenger fragmentTwoServiceMessenger = new Messenger(new Handler() {
+    private Messenger serviceTwoMessenger = new Messenger(new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.d(TAG, "handleMessage: setting service messenger");
@@ -82,7 +82,7 @@ public class ServiceFragmentTwo extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(TAG, "onBind: binded something");
-        return fragmentTwoServiceMessenger.getBinder();
+        return serviceTwoMessenger.getBinder();
     }
 
     public static final Intent newIntent(Context context) {

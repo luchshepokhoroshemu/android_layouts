@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.Objects;
+
 /** 4 фрагмента:
         Фрагмент будет содержать разметку LinearLayout с горизонтальной ориентацией
         Фрагмент будет содержать разметку с RelativeLayout
@@ -21,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        startService(ServiceFragmentOne.newIntent(MainActivity.this));
-
         Log.d(TAG, "onCreate: starting service");
         startService(ServiceFragmentOne.newIntent(MainActivity.this));
         startService(ServiceFragmentTwo.newIntent(MainActivity.this));
@@ -30,5 +30,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: services started! (supposedly)");
 
         Log.d(TAG, "onCreate: finished");
+//        FragmentThree.Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.fragment1))
     }
 }

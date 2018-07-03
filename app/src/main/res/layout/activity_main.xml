@@ -46,7 +46,7 @@
         android:id="@+id/fragment4"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:name="com.meojike.android_layouts.FragmentOne"
+        android:name="com.meojike.android_layouts.FragmentFour"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_vertical"
         app:layout_constraintEnd_toEndOf="parent"

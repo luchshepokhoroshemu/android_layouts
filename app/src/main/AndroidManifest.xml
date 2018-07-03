@@ -20,11 +20,8 @@
         <service android:name=".ServiceFragmentOne"/>
         <service android:name=".ServiceFragmentTwo"/>
         <service android:name=".ServiceFragmentThree"/>
-        <service
-            android:name=".ServiceFragmentFour"
-            android:enabled="true"
-            android:exported="true">
-        </service>
+        <service android:name=".ServiceFragmentFour"/>
+
     </application>
 
 </manifest>

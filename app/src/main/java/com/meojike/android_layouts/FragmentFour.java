@@ -4,13 +4,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +24,15 @@ public class FragmentFour extends Fragment {
 
     private static final String TAG = "FragmentFour";
 
-    public static final int MSG_REGISTER_CLIENT  = 0xFEED;
-    public static final int MSG_UNREGISTER_CLIENT = 0xDEAD;
+    public static final int MSG_REGISTER_CLIENT  = 0xFEED0;
+    public static final int MSG_UNREGISTER_CLIENT = 0xDEAD0;
 
-    private TextView textView;
+    private TextView rotatingTextView;
 
     private ServiceConnection serviceConnectionFragmentFour;
 
     private Messenger fragmentFourMessenger;
-    private Messenger serviceFragmentFourMessenger;
+    private Messenger serviceFourMessenger;
 
     @Nullable
     @Override
@@ -42,6 +45,7 @@ public class FragmentFour extends Fragment {
 
         initTextView(view);
         setServiceConnection();
+        setFragmentMessenger();
     }
 
     @Override
@@ -55,7 +59,7 @@ public class FragmentFour extends Fragment {
         super.onPause();
         Message message = Message.obtain(null, MSG_UNREGISTER_CLIENT);
         try {
-            serviceFragmentFourMessenger.send(message);
+            serviceFourMessenger.send(message);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -63,19 +67,19 @@ public class FragmentFour extends Fragment {
     }
 
     private void initTextView(View view) {
-        textView = view.findViewById(R.id.ffTextView);
+        rotatingTextView = view.findViewById(R.id.ffTextView);
     }
 
     private void setServiceConnection() {
         serviceConnectionFragmentFour = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                serviceFragmentFourMessenger = new Messenger(iBinder);
+                serviceFourMessenger = new Messenger(iBinder);
                 Message message = Message.obtain(null, MSG_REGISTER_CLIENT);
                 message.replyTo = fragmentFourMessenger;
 
                 try {
-                    serviceFragmentFourMessenger.send(message);
+                    serviceFourMessenger.send(message);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -83,8 +87,28 @@ public class FragmentFour extends Fragment {
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-
+                    serviceFourMessenger = null;
             }
         };
     }
+
+    private void setFragmentMessenger() {
+        Log.d(TAG, "setFragmentMessenger: setting fragment four messenger");
+
+        fragmentFourMessenger = new Messenger(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+
+                if(rotatingTextView != null && msg != null) {
+                    ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) rotatingTextView.getLayoutParams();
+                    params.circleAngle = (float) msg.obj;
+                    rotatingTextView.setLayoutParams(params);
+                }
+            }
+        });
+
+    }
+
+
 }

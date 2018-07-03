@@ -2,7 +2,6 @@ package com.meojike.android_layouts;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,7 +43,7 @@ public class FragmentTwo extends Fragment {
 
     private ServiceConnection serviceConnectionFragmentTwo;
 
-    private Messenger serviceFragmentTwoMessenger;
+    private Messenger serviceTwoMessenger;
     private Messenger fragmentTwoMessenger;
 
     @Nullable
@@ -76,7 +75,7 @@ public class FragmentTwo extends Fragment {
         super.onPause();
         Message message = Message.obtain(null, MSG_UNREGISTER_CLIENT);
         try {
-            serviceFragmentTwoMessenger.send(message);
+            serviceTwoMessenger.send(message);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -120,20 +119,20 @@ public class FragmentTwo extends Fragment {
         serviceConnectionFragmentTwo = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                serviceFragmentTwoMessenger = new Messenger(service);
+                serviceTwoMessenger = new Messenger(service);
                 Message message = Message.obtain(null, MSG_REGISTER_CLIENT);
                 message.replyTo = fragmentTwoMessenger;
 
                 try {
-                    serviceFragmentTwoMessenger.send(message);
+                    serviceTwoMessenger.send(message);
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onServiceDisconnected(ComponentName name) {
-                serviceFragmentTwoMessenger = null;
+            public void onServiceDisconnected(ComponentName componentName) {
+                serviceTwoMessenger = null;
             }
         };
     }
