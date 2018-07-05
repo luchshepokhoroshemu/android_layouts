@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 
 public class FragmentThree extends Fragment {
     private static final String TAG = "FragmentThree";
@@ -26,20 +29,23 @@ public class FragmentThree extends Fragment {
     private BroadcastReceiver broadcastReceiver;
     private IntentFilter intentFilter;
 
+    private Handler handler = new Handler();
+
+    SendFragmentThreeData sendDataToFragmentTwo = (SendFragmentThreeData) getActivity();
+
+    private String colorStringForExport;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d(TAG, "onReceive: yay received incoming intent for third fragment");
 
                 if(firstText != null && secondText != null && thirdText != null) {
                     firstText.setText(Integer.toHexString(intent.getIntExtra("firstColor", 0)));
-                    secondText.setText(Integer.toHexString(intent.getIntExtra("secondColor", 0)));
+                    colorStringForExport = Integer.toHexString(intent.getIntExtra("secondColor", 0));
                     thirdText.setText(Integer.toHexString(intent.getIntExtra("thirdColor", 0)));
-                } else {
-                    Log.d(TAG, "onReceive: null third fragment ((");
                 }
             }
         };
@@ -49,13 +55,33 @@ public class FragmentThree extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
 
         firstText = view.findViewById(R.id.tfTextView);
         secondText = view.findViewById(R.id.tfTextView2);
         thirdText = view.findViewById(R.id.tfTextView3);
 
         intentFilter = new IntentFilter(FRAGMENT_THREE_FILTER);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if(colorStringForExport != null && colorStringForExport.length() != 1) {
+                        String color = "#" + colorStringForExport;
+
+                        while(color.length() != 9) {
+                            color += "f";
+                        }
+                        sendDataToFragmentTwo.sendFragmentThreeData(Color.parseColor(color));
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
     }
 
@@ -71,5 +97,27 @@ public class FragmentThree extends Fragment {
         super.onPause();
 
         getContext().unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        sendDataToFragmentTwo = (SendFragmentThreeData) getActivity();
+    }
+
+    public void setReceivedData(final String receivedData)
+    {
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                secondText.setText(receivedData);
+            }
+        });
+    }
+
+    public interface SendFragmentThreeData {
+        void sendFragmentThreeData(int data);
     }
 }

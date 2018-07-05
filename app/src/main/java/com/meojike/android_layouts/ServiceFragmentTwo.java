@@ -86,7 +86,6 @@ public class ServiceFragmentTwo extends Service {
     }
 
     public static final Intent newIntent(Context context) {
-        Log.d(TAG, "newIntent: 2 fragment new intent is required");
         return new Intent(context, ServiceFragmentTwo.class);
     }
 

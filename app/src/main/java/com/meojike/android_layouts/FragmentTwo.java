@@ -46,6 +46,10 @@ public class FragmentTwo extends Fragment {
     private Messenger serviceTwoMessenger;
     private Messenger fragmentTwoMessenger;
 
+    private Handler handler = new Handler();
+
+    SendFragmentTwoData sendDataToFragmentThree = (SendFragmentTwoData) getActivity();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +65,22 @@ public class FragmentTwo extends Fragment {
         initButtons(view);
         setFragmentMessenger();
         setServiceConnection();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if(sendDataToFragmentThree != null) {
+                        sendDataToFragmentThree.sendFragmentTwoData(textViewFive.getText().toString());
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
     }
 
@@ -80,6 +100,13 @@ public class FragmentTwo extends Fragment {
             e.printStackTrace();
         }
         getContext().unbindService(serviceConnectionFragmentTwo);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        sendDataToFragmentThree = (SendFragmentTwoData) getActivity();
     }
 
     private void setFragmentMessenger() {
@@ -108,7 +135,6 @@ public class FragmentTwo extends Fragment {
                     textViewNine.setText(day.format(date));
 
                     textViewFive.setText(time.format(date));
-
                 }
             }
         });
@@ -147,5 +173,19 @@ public class FragmentTwo extends Fragment {
         textViewSeven = view.findViewById(R.id.sfTextView7);
         textViewEight = view.findViewById(R.id.sfTextView8);
         textViewNine = view.findViewById(R.id.sfTextView9);
+    }
+
+    public void setReceivedData(final int receivedData)
+    {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                textViewFive.setTextColor(receivedData);
+            }
+        });
+    }
+
+    public interface SendFragmentTwoData {
+        void sendFragmentTwoData(String data);
     }
 }

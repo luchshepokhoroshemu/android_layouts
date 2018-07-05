@@ -41,14 +41,13 @@ public class ServiceFragmentFour extends Service {
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "onCreate: fragment 4 onCreate");
         super.onCreate();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true) {
-                    angle += 1; //TODO uslovie na gradusy
+                    angle += 0.5;
 
                     Message message = new Message();
                     message.obj = angle;
@@ -66,7 +65,7 @@ public class ServiceFragmentFour extends Service {
                     }
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(25);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

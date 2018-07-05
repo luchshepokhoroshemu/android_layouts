@@ -34,7 +34,7 @@ public class ServiceFragmentThree extends Service {
 
                     Log.d(TAG, "run: broadcast for third fragment was sent");
                     try {
-                        Thread.currentThread().sleep(3500);
+                        Thread.currentThread().sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         stopSelf();
